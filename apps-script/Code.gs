@@ -5,6 +5,9 @@
  *         type "Web app", Execute as "Me", Who has access "Anyone".
  */
 const SHEET_NAME = 'Responses';
+// Spreadsheet that receives responses (from its URL: /spreadsheets/d/<ID>/edit).
+// Leave '' if this script is bound to the sheet (Extensions → Apps Script).
+const SPREADSHEET_ID = '1awHqUERVjm7n3DV8IPfwSD9NCet8aRwTHE-iV5Wmzow';
 
 const COLUMNS = [
   ['submittedAt', 'Submitted at'],
@@ -33,7 +36,7 @@ const COLUMNS = [
 ];
 
 function getSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SPREADSHEET_ID ? SpreadsheetApp.openById(SPREADSHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
   if (sheet.getLastRow() === 0) {
