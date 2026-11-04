@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Accelerator · DataSense</title>
+<meta name="description" content="A 12-week mentorship that prepares you for Forward Deployed Engineer, AI Solutions Architect and AI Engineer roles. Start with a 4-minute intake.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23ff5b23'/><path d='M9 8h7a8 8 0 010 16H9z' fill='%230c0d0c'/></svg>">
+<style>
+:root{
+  --bg:#0c0d0c; --bg-2:#131513; --card:#161816; --line:#262a26; --line-2:#343933;
+  --ink:#f3efe6; --muted:#9a9d95; --dim:#5f635c;
+  --accent:#ff5b23; --accent-ink:#0c0d0c; --accent-soft:rgba(255,91,35,.12);
+  --ok:#b6f09c;
+  --serif:"Instrument Serif", Georgia, serif;
+  --sans:"Inter Tight", system-ui, -apple-system, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, monospace;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.mono{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.serif{font-family:var(--serif);font-weight:400}
+em.serif{font-style:italic;color:var(--accent)}
+
+/* background grid */
+.grid-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:72px 72px;opacity:.35;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 75%)}
+main,header,footer{position:relative;z-index:1}
+
+/* nav */
+.nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:600;text-decoration:none}
+.brand-mark{width:28px;height:28px;border-radius:7px;background:var(--accent);display:grid;place-items:center}
+.brand-mark span{width:11px;height:14px;background:var(--bg);border-radius:0 8px 8px 0}
+.brand small{font-family:var(--mono);font-size:11px;color:var(--muted);font-weight:400;letter-spacing:.06em;border:1px solid var(--line-2);padding:3px 7px;border-radius:99px;margin-left:4px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 20px;border-radius:99px;font-weight:600;font-size:15px;transition:transform .2s,background .2s,box-shadow .2s;text-decoration:none;white-space:nowrap}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--accent)}
+.btn-ghost{border:1px solid var(--line-2)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn .arrow{transition:transform .2s}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* hero */
+.hero{padding:72px 0 96px;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:28px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(182,240,156,.6);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(182,240,156,0)}100%{box-shadow:0 0 0 0 rgba(182,240,156,0)}}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(48px,7.4vw,104px);line-height:.95;letter-spacing:-.02em}
+h1 .rot{display:inline-block;color:var(--accent);font-style:italic;min-width:4ch}
+.hero p.lead{margin-top:28px;font-size:19px;color:var(--muted);max-width:540px}
+.hero p.lead b{color:var(--ink);font-weight:500}
+.cta-row{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap;align-items:center}
+.cta-note{font-family:var(--mono);font-size:12px;color:var(--dim);margin-left:6px}
+
+/* hero card: a "week" ticket */
+.ticket{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;position:relative;box-shadow:0 40px 80px -40px #000}
+.ticket-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px dashed var(--line-2)}
+.ticket h3{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;margin:18px 0 6px}
+.task{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px;opacity:0;transform:translateY(6px);animation:in .5s forwards}
+.task:last-child{border-bottom:0}
+.task .box{flex:none;width:18px;height:18px;border:1.5px solid var(--line-2);border-radius:5px;margin-top:3px;display:grid;place-items:center;transition:.3s}
+.task.done .box{background:var(--ok);border-color:var(--ok)}
+.task.done .box::after{content:"";width:8px;height:4px;border:2px solid var(--bg);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.task.done .t{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--dim)}
+.task small{display:block;font-family:var(--mono);font-size:11px;color:var(--dim);margin-top:2px;letter-spacing:.04em}
+@keyframes in{to{opacity:1;transform:none}}
+.ticket-meter{margin-top:16px;height:6px;background:var(--line);border-radius:9px;overflow:hidden}
+.ticket-meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+
+/* role marquee */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:22px 0;background:var(--bg)}
+.marquee-track{display:flex;gap:48px;width:max-content;animation:scroll 38s linear infinite}
+.marquee span{font-family:var(--serif);font-size:34px;white-space:nowrap;color:var(--muted)}
+.marquee span b{font-weight:400;color:var(--accent);font-style:normal;margin-right:48px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding:110px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:56px;flex-wrap:wrap}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5vw,64px);line-height:1;letter-spacing:-.015em;max-width:760px}
+.sec-head p{color:var(--muted);max-width:380px}
+
+/* who it's for */
+.who{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.who-item{background:var(--bg);padding:28px 24px 32px;transition:background .3s}
+.who-item:hover{background:var(--bg-2)}
+.who-item .mono{color:var(--accent)}
+.who-item h4{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1;margin:18px 0 10px}
+.who-item p{color:var(--muted);font-size:15px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+.step{border-top:1px solid var(--line-2);padding-top:22px;position:relative}
+.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--mono);font-size:12px;color:var(--accent)}
+.step h4{font-size:20px;font-weight:600;margin:14px 0 8px;letter-spacing:-.01em}
+.step p{color:var(--muted);font-size:15px}
+.step.you{border-top-color:var(--accent)}
+.step.you .tag{position:absolute;top:-11px;right:0;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:99px;letter-spacing:.06em}
+
+/* roadmap */
+.months{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.month{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:18px}
+.month h4{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1}
+.month > p{color:var(--muted);font-size:15px;min-height:48px}
+.weeks{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.wk{aspect-ratio:1;border:1px solid var(--line-2);border-radius:10px;display:flex;flex-direction:column;justify-content:space-between;padding:8px;font-family:var(--mono);font-size:10px;color:var(--dim);transition:.25s;cursor:default;text-align:left}
+.wk b{font-family:var(--sans);font-size:18px;font-weight:600;color:var(--ink)}
+.wk:hover,.wk.active{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.wk:hover b,.wk.active b{color:var(--accent-ink)}
+.wk-detail{border-top:1px dashed var(--line-2);padding-top:14px;font-size:15px;min-height:70px}
+.wk-detail .mono{display:block;margin-bottom:4px}
+
+/* final cta */
+.final{border:1px solid var(--line);border-radius:28px;padding:72px 48px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(ellipse 60% 80% at 50% 120%,rgba(255,91,35,.22),transparent 70%),var(--bg-2)}
+.final h2{margin:0 auto 20px}
+.final p{color:var(--muted);max-width:520px;margin:0 auto 34px}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--dim);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.on{opacity:1;transform:none}
+
+/* ---------- INTAKE OVERLAY ---------- */
+.intake{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.intake.open{opacity:1;visibility:visible}
+.in-top{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;gap:16px}
+.in-progress{position:absolute;top:0;left:0;right:0;height:3px;background:var(--line)}
+.in-progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.in-close{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;font-size:18px}
+.in-close:hover{border-color:var(--ink)}
+.in-body{flex:1;overflow-y:auto;display:flex;justify-content:center;padding:4vh 24px 40px}
+.q{width:100%;max-width:760px;margin:auto 0}
+.q-anim{animation:qIn .45s cubic-bezier(.2,.8,.2,1)}
+.q-anim.back{animation-name:qInBack}
+@keyframes qIn{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes qInBack{from{opacity:0;transform:translateY(-28px)}to{opacity:1;transform:none}}
+.q-num{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.08em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.q h3{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.4vw,52px);line-height:1.05;letter-spacing:-.01em}
+.q .hint{color:var(--muted);margin-top:12px;font-size:16px}
+.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:30px}
+.opts.one{grid-template-columns:1fr}
+.opt{display:flex;align-items:center;gap:14px;padding:15px 16px;border:1px solid var(--line-2);border-radius:12px;background:var(--bg-2);text-align:left;transition:border-color .15s,background .15s,transform .15s;font-size:16px;line-height:1.3}
+.opt:hover{border-color:var(--muted)}
+.opt:active{transform:scale(.985)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:7px;border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--mono);font-size:11px;color:var(--muted);transition:.15s}
+.opt .d{display:block;color:var(--muted);font-size:14px;margin-top:3px}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .k{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.opt.flash{animation:flash .28s}
+@keyframes flash{50%{background:rgba(255,91,35,.3)}}
+.opt.disabled{opacity:.35;pointer-events:none}
+.field{margin-top:26px}
+.field label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.field input,.field textarea{width:100%;background:transparent;border:0;border-bottom:1.5px solid var(--line-2);color:var(--ink);font:inherit;font-size:24px;padding:8px 0 10px;outline:none;transition:border-color .2s;border-radius:0}
+.field textarea{font-size:19px;resize:none;min-height:110px;line-height:1.5}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--accent)}
+.field input::placeholder,.field textarea::placeholder{color:var(--dim)}
+.field .opt-tag{color:var(--dim);text-transform:none;letter-spacing:0}
+.err{color:#ff8b6b;font-size:14px;margin-top:12px;min-height:20px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:30px}
+.scale .opt{flex-direction:column;justify-content:center;padding:22px 8px;font-size:28px;font-family:var(--serif)}
+.scale-labels{display:flex;justify-content:space-between;margin-top:10px;font-size:13px;color:var(--muted)}
+.scale-labels span{max-width:30%}
+.scale-labels span:nth-child(2){text-align:center}
+.scale-labels span:last-child{text-align:right}
+.q-actions{display:flex;align-items:center;gap:16px;margin-top:32px;flex-wrap:wrap}
+.kbd{font-family:var(--mono);font-size:12px;color:var(--dim)}
+.kbd b{color:var(--muted);font-weight:500;border:1px solid var(--line-2);border-radius:5px;padding:1px 6px;margin:0 2px}
+.in-foot{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-top:1px solid var(--line)}
+.nav-btns{display:flex;gap:8px}
+.nav-btns button{width:42px;height:42px;border-radius:10px;border:1px solid var(--line-2);display:grid;place-items:center;font-size:16px}
+.nav-btns button:hover:not(:disabled){border-color:var(--ink)}
+.nav-btns button:disabled{opacity:.3;cursor:default}
+.counter{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+
+/* result card */
+.result{text-align:left}
+.profile{margin-top:30px;border:1px solid var(--line-2);border-radius:20px;overflow:hidden;background:var(--card)}
+.profile-head{padding:24px;background:linear-gradient(120deg,var(--accent-soft),transparent 60%);border-bottom:1px dashed var(--line-2)}
+.profile-head .serif{font-size:40px;line-height:1;margin-top:8px}
+.profile-head p{color:var(--muted);margin-top:8px;font-size:15px}
+.profile-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.profile-grid div{padding:18px 24px;border-right:1px solid var(--line)}
+.profile-grid div:last-child{border-right:0}
+.profile-grid b{display:block;font-weight:500;margin-top:4px;font-size:16px}
+/* availability picker */
+.days{display:flex;gap:8px;margin-top:28px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.day{flex:none;min-width:74px;padding:10px 12px;border:1px solid var(--line-2);border-radius:12px;background:var(--bg-2);text-align:left;position:relative;transition:.15s}
+.day:hover{border-color:var(--muted)}
+.day .mono{font-size:10px;display:block}
+.day b{display:block;font-family:var(--serif);font-weight:400;font-size:26px;line-height:1.1}
+.day.active{border-color:var(--ink);background:var(--card)}
+.day .cnt{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-family:var(--mono);font-size:11px;display:grid;place-items:center;padding:0 5px}
+.day-meta{display:flex;justify-content:space-between;align-items:baseline;margin:18px 0 10px;gap:12px;flex-wrap:wrap}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.slot{padding:12px;border:1px solid var(--line-2);border-radius:10px;background:var(--bg-2);text-align:left;transition:.15s}
+.slot:hover{border-color:var(--muted)}
+.slot b{display:block;font-weight:600;font-size:16px}
+.slot small{display:block;font-family:var(--mono);font-size:10.5px;color:var(--dim);margin-top:3px;letter-spacing:.02em}
+.slot.sel{border-color:var(--accent);background:var(--accent-soft)}
+.slot.sel small{color:var(--muted)}
+.picked{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.picked b{color:var(--accent);font-weight:500}
+@media (max-width:600px){.slots{grid-template-columns:repeat(2,1fr)}}
+.spinner{width:18px;height:18px;border:2px solid var(--accent-ink);border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;padding:40px 0 72px;gap:44px}
+  .who,.steps{grid-template-columns:repeat(2,1fr)}
+  .months{grid-template-columns:1fr}
+  section{padding:80px 0}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  .brand small{display:none}
+  .nav .btn{padding:10px 14px;font-size:14px}
+  .who,.steps{grid-template-columns:1fr}
+  .opts{grid-template-columns:1fr}
+  .scale{gap:6px}
+  .scale .opt{padding:16px 4px;font-size:22px}
+  .final{padding:52px 22px}
+  .profile-grid{grid-template-columns:1fr}
+  .profile-grid div{border-right:0;border-bottom:1px solid var(--line)}
+  .in-body{padding:3vh 16px 32px}
+  .kbd{display:none}
+  .marquee span{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.task{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header class="wrap">
+  <nav class="nav">
+    <a href="#" class="brand"><span class="brand-mark"><span></span></span>DataSense <small>AI ACCELERATOR</small></a>
+    <button class="btn btn-primary" data-open>Start intake <span class="arrow">→</span></button>
+  </nav>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div>
+      <div class="eyebrow mono"><span class="pulse"></span>Cohort intake open · 12-week mentorship</div>
+      <h1>Stop learning AI.<br>Start getting <span class="rot" id="rot">deployed.</span></h1>
+      <p class="lead">A hands-on mentorship for people aiming at <b>Forward Deployed Engineer</b>, <b>AI Solutions Architect</b> and top <b>AI engineering</b> roles. You get a 3-month roadmap built around you, weekly tasks you actually ship, and someone checking your work.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary" data-open>Begin your intake <span class="arrow">→</span></button>
+        <a class="btn btn-ghost" href="#roadmap">See the 12 weeks</a>
+        <span class="cta-note">~4 min · mostly tap, little typing</span>
+      </div>
+    </div>
+
+    <div class="ticket" aria-hidden="true">
+      <div class="ticket-top"><span class="mono">Your week 06</span><span class="mono" style="color:var(--accent)">● in progress</span></div>
+      <h3>Ship an agent a real client would pay for.</h3>
+      <div id="tasks"></div>
+      <div class="ticket-meter"><i id="meter"></i></div>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+
+  <section class="wrap reveal">
+    <div class="sec-head">
+      <h2>Built for people who want to <em class="serif">build</em>, not collect certificates.</h2>
+      <p>You don't need to be an expert today. You need to be honest about where you are and show up every week.</p>
+    </div>
+    <div class="who">
+      <div class="who-item"><span class="mono">01 / Engineers</span><h4>Moving from software to AI</h4><p>You can code. You want to architect, build and ship agentic systems in production.</p></div>
+      <div class="who-item"><span class="mono">02 / Data & ML</span><h4>Going from models to products</h4><p>You know ML. Now you want LLM apps, agents, evals and client-facing delivery.</p></div>
+      <div class="who-item"><span class="mono">03 / Switchers</span><h4>Changing careers with intent</h4><p>Non-tech or early career, with the drive to put in the weekly hours and learn fast.</p></div>
+      <div class="who-item"><span class="mono">04 / Builders</span><h4>Founders & freelancers</h4><p>You want to ship AI products or consulting work that clients trust and pay for.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="sec-head">
+      <h2>How it works</h2>
+      <p>Everything starts with a short intake, so our first call is about you and not small talk.</p>
+    </div>
+    <div class="steps">
+      <div class="step you"><span class="tag">YOU ARE HERE</span><h4>Intake form</h4><p>Four minutes: where you are, where you want to go, and how you learn.</p></div>
+      <div class="step"><h4>Discovery call</h4><p>We go through your answers, find the real gaps, and agree on one clear target.</p></div>
+      <div class="step"><h4>Your 12-week roadmap</h4><p>A personalised plan built around your hours, your style and your target role.</p></div>
+      <div class="step"><h4>Weekly tasks + review</h4><p>Ship something every week, get feedback, adjust, and keep moving.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap reveal" id="roadmap">
+    <div class="sec-head">
+      <h2>Three months. Twelve weeks. <em class="serif">One outcome.</em></h2>
+      <p>The skeleton everyone starts from. Your discovery call reshapes it for you. Hover or tap a week.</p>
+    </div>
+    <div class="months" id="months"></div>
+  </section>
+
+  <section class="wrap reveal">
+    <div class="final">
+      <span class="mono">Before we talk</span>
+      <h2 style="margin-top:18px">Tell me where you are.<br><em class="serif">I'll help you get there.</em></h2>
+      <p>Your answers stay private and are only used to prepare your discovery call and roadmap.</p>
+      <button class="btn btn-primary" data-open>Start the intake <span class="arrow">→</span></button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© <span id="yr"></span> DataSense · AI Accelerator</span><span class="mono">Forward Deployed · Solutions Architect · AI Engineer</span></div>
+</footer>
+
+<!-- ============ INTAKE ============ -->
+<div class="intake" id="intake" role="dialog" aria-modal="true" aria-label="Accelerator intake form">
+  <div class="in-progress"><i id="prog"></i></div>
+  <div class="in-top">
+    <span class="brand"><span class="brand-mark"><span></span></span>Intake</span>
+    <button class="in-close" id="close" aria-label="Close">✕</button>
+  </div>
+  <div class="in-body"><div class="q" id="q"></div></div>
+  <div class="in-foot">
+    <span class="counter" id="counter"></span>
+    <div class="nav-btns"><button id="prev" aria-label="Previous">↑</button><button id="next" aria-label="Next">↓</button></div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+(() => {
+const CFG = window.DATASENSE_CONFIG || {};
+const $ = s => document.querySelector(s);
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ---------- landing interactions ---------- */
+const words = ['deployed.','hired.','trusted.','shipping.'];
+let wi = 0; const rot = $('#rot');
+setInterval(() => { wi = (wi+1)%words.length; rot.style.opacity=0; setTimeout(()=>{rot.textContent=words[wi];rot.style.opacity=1},250)}, 2600);
+rot.style.transition='opacity .25s';
+
+const tasks = [
+  ['Scope a client problem into an agent spec','Mon · 1h · write-up'],
+  ['Build tool-calling agent with Claude Code','Tue–Thu · 5h · repo'],
+  ['Add evals + failure cases','Fri · 2h · eval report'],
+  ['Record a 3-min demo for review','Sat · 1h · loom'],
+];
+const tEl = $('#tasks');
+tasks.forEach((t,i)=>{const d=document.createElement('div');d.className='task';d.style.animationDelay=(.3+i*.15)+'s';d.innerHTML=`<span class="box"></span><div><span class="t">${t[0]}</span><small>${t[1]}</small></div>`;tEl.appendChild(d)});
+let done=0;
+const tick=()=>{const all=tEl.children; if(done>=all.length){[...all].forEach(x=>x.classList.remove('done'));done=0;} else {all[done].classList.add('done');done++;} $('#meter').style.width=(done/all.length*100)+'%';};
+setTimeout(()=>{tick();setInterval(tick,1600)},1400);
+
+const roles=['Forward Deployed Engineer','AI Solutions Architect','Agent Engineer','Applied AI Engineer','AI Product Builder'];
+$('#marquee').innerHTML=[...roles,...roles].map(r=>`<span>${r}<b>✦</b></span>`).join('');
+
+const months=[
+  {n:'Month 1',t:'Foundations that compound',p:'LLM fundamentals, prompting, and building fast with Claude Code.',w:[
+    ['LLMs & tokens','How models think, cost and fail'],['Prompt + context','Context engineering that holds up'],['Claude Code','Build 10× faster with AI pairing'],['Tools & APIs','Function calling, structured outputs']]},
+  {n:'Month 2',t:'Agents in production',p:'RAG, MCP, multi-agent systems, and evals you can defend.',w:[
+    ['RAG done right','Retrieval, chunking, grounding'],['MCP & integrations','Connect agents to real systems'],['Multi-agent','Orchestration, memory, workflows'],['Evals & observability','Measure, trace, improve']]},
+  {n:'Month 3',t:'Deploy & get hired',p:'A client-grade capstone, system design, and interview readiness.',w:[
+    ['Capstone scoping','Run discovery like an FDE'],['Ship to prod','Deploy, secure, monitor'],['System design','Architect AI solutions on the board'],['Launch & interviews','Portfolio, story, mock rounds']]},
+];
+$('#months').innerHTML=months.map((m,mi)=>`<div class="month"><span class="mono">${m.n}</span><h4>${m.t}</h4><p>${m.p}</p>
+  <div class="weeks">${m.w.map((w,i)=>`<button class="wk${i===0?' active':''}" data-m="${mi}" data-i="${i}"><span>WK</span><b>${String(mi*4+i+1).padStart(2,'0')}</b></button>`).join('')}</div>
+  <div class="wk-detail" id="wd${mi}"><span class="mono">Week ${String(mi*4+1).padStart(2,'0')}</span>${m.w[0][0]}: <span style="color:var(--muted)">${m.w[0][1]}</span></div></div>`).join('');
+document.querySelectorAll('.wk').forEach(b=>{const show=()=>{const mi=+b.dataset.m,i=+b.dataset.i,w=months[mi].w[i];
+  b.parentElement.querySelectorAll('.wk').forEach(x=>x.classList.toggle('active',x===b));
+  $('#wd'+mi).innerHTML=`<span class="mono">Week ${String(mi*4+i+1).padStart(2,'0')}</span>${w[0]}: <span style="color:var(--muted)">${w[1]}</span>`;};
+  b.addEventListener('mouseenter',show);b.addEventListener('click',show);});
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- intake definition ---------- */
+const Q = [
+  {id:'name', type:'text', q:"First things first: what should I call you?", ph:'Your full name', req:true},
+  {id:'contact', type:'fields', q:d=>`Nice to meet you, ${first(d.name)}. Where can I reach you?`, hint:'Only used to schedule your discovery call.',
+    fields:[{id:'email',label:'Email',type:'email',ph:'you@email.com',req:true},{id:'whatsapp',label:'WhatsApp / phone',type:'tel',ph:'+91 98xxx xxxxx',opt:true},{id:'linkedin',label:'LinkedIn URL',type:'url',ph:'linkedin.com/in/…',opt:true}]},
+  {id:'stage', type:'single', q:'Where are you in your career right now?', opts:['Student','Fresher (0–1 yr)','Software / IT engineer','Data / ML professional','Non-tech professional','Manager / Tech lead','Founder / Freelancer','On a career break']},
+  {id:'experience', type:'single', q:'Total years of work experience?', opts:['0–1 years','1–3 years','3–6 years','6–10 years','10+ years']},
+  {id:'target', type:'single', q:'Which role are you going after?', opts:['Forward Deployed Engineer','AI Solutions Architect','AI / Agent Engineer','Applied AI / ML Engineer','AI Product Manager','Building my own AI product','Still figuring it out']},
+  {id:'timeline', type:'single', q:'How soon do you want to be in that role?', opts:['ASAP, within 3 months','3–6 months','6–12 months','No rush, skills first']},
+  {id:'hours', type:'single', q:'Honestly, how many hours a week can you give this?', hint:'Be realistic. Your roadmap is built around this number.', opts:['Under 5 hrs','5–8 hrs','8–12 hrs','12–20 hrs','20+ hrs']},
+  {id:'slot', type:'multi', q:'When do you usually get your focused time?', hint:'Pick all that apply.', opts:['Early mornings','Weekday daytime','Weekday evenings','Late nights','Weekends','It varies']},
+  {id:'coding', type:'scale', q:'How comfortable are you with code?', labels:['Never written code','Can write small scripts','Ship production code']},
+  {id:'tools', type:'multi', q:'What have you already used hands-on?', hint:'Pick all that apply. "None yet" is a perfectly good answer.', opts:['Python','Claude Code','Cursor / Copilot','ChatGPT / Claude (chat)','LLM APIs (OpenAI / Anthropic)','LangChain / LangGraph','RAG & vector DBs','MCP servers','n8n / Zapier / no-code','Cloud (AWS / GCP / Azure)','Docker & deployment','None yet, fresh start'], exclusive:'None yet, fresh start'},
+  {id:'learning', type:'single', one:true, q:'How do you learn best?', opts:[
+    {v:'Builder',d:'Give me a task. I learn by coding and breaking things.'},
+    {v:'Explorer',d:'I watch, explore and tinker until it clicks.'},
+    {v:'Reader',d:'Docs, blogs and papers first, then I build.'},
+    {v:'Guided',d:'Walk me through it step by step, then let me repeat it.'}]},
+  {id:'workstyle', type:'single', q:'And how do you work best?', opts:['Solo & self-driven','Solo, with regular check-ins','With a peer or small group','I need someone pushing me']},
+  {id:'stuck', type:'multi', max:3, q:'Where are you stuck right now?', hint:'Pick up to 3.', opts:["Don't know where to start",'Too much info, overwhelmed','Can’t build end-to-end projects','No strong portfolio','Not getting interview calls','Clearing interviews / system design','Staying consistent','Understanding agents deeply','Client-facing communication']},
+  {id:'strengths', type:'multi', max:3, q:'What are your strengths?', hint:'Pick up to 3. No modesty here.', opts:['Coding & building','Problem solving','Communication','Business / domain knowledge','Fast learner','Discipline & consistency','Product / design sense','Leadership']},
+  {id:'weakness', type:'single', q:'Be honest. What’s your biggest weakness?', hint:'This stays between us. It helps me build in the right guardrails.', opts:['Procrastination','Overthinking / perfectionism','Weak fundamentals','Shiny-object syndrome','Low confidence','Communication','Time management','Giving up when stuck']},
+  {id:'success', type:'multi', max:2, q:'Three months from now, what makes this a win?', hint:'Pick up to 2.', opts:['An offer in my target role','Internal switch / promotion','3+ deployed agent projects','Being genuinely interview-ready','First consulting / freelance clients','Launching my own AI product','Clarity & confidence on my path']},
+  {id:'availability', type:'slots', min:2, q:d=>`Last bit, ${first(d.name)}: when are you free for a 1-hour discovery call?`, hint:'Pick every slot that works (at least 2). I’ll confirm one by email. Times are PST, with your local time underneath.'},
+  {id:'note', type:'textarea', q:'Anything else I should know before our call?', hint:'Optional: context, constraints, a dream company, anything.', ph:'Type here, or just hit Submit…', opt:true, last:true},
+];
+
+const data = load() || {};
+let idx = 0, dir = 1, busy = false;
+const qEl=$('#q'), overlay=$('#intake');
+
+function first(n){return (n||'').trim().split(/\s+/)[0]||'there'}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function save(){try{localStorage.setItem('ds_intake',JSON.stringify(data))}catch(e){}}
+function load(){try{return JSON.parse(localStorage.getItem('ds_intake'))}catch(e){return null}}
+const L='ABCDEFGHIJKLMNOP';
+const ov=o=>typeof o==='string'?{v:o}:o;
+
+function open(){overlay.classList.add('open');document.body.style.overflow='hidden';render();}
+function close(){overlay.classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',open));
+$('#close').addEventListener('click',close);
+$('#prev').addEventListener('click',()=>go(-1));
+$('#next').addEventListener('click',()=>next());
+
+function render(){
+  const s=Q[idx]; if(!s){return renderDone();}
+  const title=typeof s.q==='function'?s.q(data):s.q;
+  let h=`<div class="q-num">${String(idx+1).padStart(2,'0')} <span style="color:var(--dim)">→</span></div><h3>${esc(title)}</h3>${s.hint?`<p class="hint">${s.hint}</p>`:''}`;
+  if(s.type==='text') h+=`<div class="field"><input id="f_${s.id}" placeholder="${s.ph}" value="${esc(data[s.id]||'')}" autocomplete="name"></div>`;
+  if(s.type==='textarea') h+=`<div class="field"><textarea id="f_${s.id}" placeholder="${s.ph}" maxlength="1500">${esc(data[s.id]||'')}</textarea></div><input class="hp" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">`;
+  if(s.type==='fields') h+=s.fields.map(f=>`<div class="field"><label for="f_${f.id}">${f.label} ${f.opt?'<span class="opt-tag">(optional)</span>':''}</label><input id="f_${f.id}" type="${f.type}" placeholder="${f.ph}" value="${esc(data[f.id]||'')}"></div>`).join('');
+  if(s.type==='single'||s.type==='multi'){
+    const cur=data[s.id]; const arr=Array.isArray(cur)?cur:(cur?[cur]:[]);
+    h+=`<div class="opts${s.one?' one':''}">${s.opts.map((o,i)=>{o=ov(o);return `<button class="opt${arr.includes(o.v)?' sel':''}" data-v="${esc(o.v)}"><span class="k">${L[i]}</span><span>${esc(o.v)}${o.d?`<span class="d">${esc(o.d)}</span>`:''}</span></button>`}).join('')}</div>`;
+  }
+  if(s.type==='scale') h+=`<div class="scale">${[1,2,3,4,5].map(n=>`<button class="opt${data[s.id]==n?' sel':''}" data-v="${n}">${n}</button>`).join('')}</div><div class="scale-labels">${s.labels.map(l=>`<span>${l}</span>`).join('')}</div>`;
+  if(s.type==='slots') h+=`<div class="days" id="days"></div><div class="day-meta"><span class="mono" id="dayLabel"></span><span class="picked" id="picked"></span></div><div class="slots" id="slots"></div>`;
+  h+=`<div class="err" id="err"></div>`;
+  const needsBtn = s.type!=='single' && s.type!=='scale';
+  h+=`<div class="q-actions">${needsBtn||data[s.id]?`<button class="btn btn-primary" id="ok">${s.last?'Submit intake':'OK'} <span class="arrow">${s.last?'↗':'✓'}</span></button>`:''}<span class="kbd">${s.type==='text'||s.type==='fields'?'press <b>Enter ↵</b>':s.type==='textarea'?'<b>⌘ Enter</b> to submit':s.type==='multi'?'press letters, then <b>Enter ↵</b>':s.type==='slots'?'tap a day, then your slots':'press a letter key'}</span></div>`;
+  qEl.className='q'; void qEl.offsetWidth; qEl.className='q q-anim'+(dir<0?' back':'');
+  qEl.innerHTML=h;
+  const okb=$('#ok'); if(okb) okb.addEventListener('click',next);
+  qEl.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>pick(b)));
+  if(s.type==='multi') syncMax();
+  if(s.type==='slots') renderSlots();
+  const inp=qEl.querySelector('input:not(.hp),textarea'); if(inp) setTimeout(()=>inp.focus({preventScroll:true}),350);
+  ui();
+}
+
+function pick(b){
+  const s=Q[idx]; const v=b.dataset.v;
+  if(s.type==='single'||s.type==='scale'){
+    data[s.id]=s.type==='scale'?+v:v; save();
+    qEl.querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',x===b));
+    b.classList.add('flash'); setTimeout(()=>next(),320);
+  } else {
+    let arr=Array.isArray(data[s.id])?[...data[s.id]]:[];
+    if(arr.includes(v)) arr=arr.filter(x=>x!==v);
+    else {
+      if(s.exclusive) arr = v===s.exclusive ? [] : arr.filter(x=>x!==s.exclusive);
+      if(s.max && arr.length>=s.max) return;
+      arr.push(v);
+    }
+    data[s.id]=arr; save();
+    qEl.querySelectorAll('.opt').forEach(x=>x.classList.toggle('sel',arr.includes(x.dataset.v)));
+    syncMax(); $('#err').textContent='';
+  }
+}
+function syncMax(){const s=Q[idx]; if(!s.max)return; const arr=data[s.id]||[]; qEl.querySelectorAll('.opt').forEach(x=>x.classList.toggle('disabled',arr.length>=s.max&&!arr.includes(x.dataset.v)));}
+
+function collect(){
+  const s=Q[idx], err=$('#err');
+  if(s.type==='text'||s.type==='textarea'){const v=$('#f_'+s.id).value.trim(); if(s.req&&!v){err.textContent='This one’s needed.';return false} data[s.id]=v;}
+  if(s.type==='fields'){for(const f of s.fields){const v=$('#f_'+f.id).value.trim(); if(f.req&&!v){err.textContent=`Please add your ${f.label.toLowerCase()}.`;return false}
+    if(f.type==='email'&&v&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){err.textContent='That email doesn’t look right.';return false} data[f.id]=v;}}
+  if(s.type==='single'||s.type==='scale'){if(data[s.id]==null||data[s.id]===''){err.textContent='Pick one to continue.';return false}}
+  if(s.type==='multi'){if(!(data[s.id]||[]).length){err.textContent='Pick at least one.';return false}}
+  if(s.type==='slots'){const n=(data[s.id]||[]).length; if(n<(s.min||1)){err.textContent=n?`Pick at least ${s.min} slots so I have options.`:'Pick at least two slots.';return false}}
+  save(); return true;
+}
+
+/* ---------- discovery-call availability (1-hr slots, PST) ---------- */
+// Weekdays: 6 PM–12 AM PST. Weekends: 8 AM–12 AM PST. Nov 14 intentionally excluded.
+const CALL_DAYS=['2026-11-05','2026-11-06','2026-11-07','2026-11-08','2026-11-09','2026-11-10','2026-11-11','2026-11-12','2026-11-13','2026-11-15'];
+const PST_OFFSET=8; // PST = UTC-8 (DST ended Nov 1, 2026)
+const userTZ=Intl.DateTimeFormat().resolvedOptions().timeZone;
+const sameTZ=userTZ==='America/Los_Angeles';
+const fmt=(tz,o)=>new Intl.DateTimeFormat('en-US',{timeZone:tz,...o});
+const hr=h=>{const x=h%24;return (x%12||12)+(x<12?' AM':' PM')};
+const SLOT_DAYS=CALL_DAYS.map(iso=>{
+  const [y,m,d]=iso.split('-').map(Number);
+  const dow=new Date(Date.UTC(y,m-1,d)).getUTCDay(); const weekend=dow===0||dow===6;
+  const start=weekend?8:18, slots=[];
+  for(let h=start;h<24;h++){
+    const t=new Date(Date.UTC(y,m-1,d,h+PST_OFFSET));
+    if(t.getTime()<Date.now()+2*3600e3) continue; // hide slots that are too soon / past
+    const dayName=fmt('UTC',{weekday:'short',month:'short',day:'numeric'}).format(new Date(Date.UTC(y,m-1,d))).replace(/,/g,'');
+    const pst=`${dayName} · ${hr(h)}–${hr(h+1)} PST`;
+    const local=fmt(userTZ,{weekday:'short',hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(t).replace(/,/g,'');
+    slots.push({v:pst,label:`${hr(h)}`,local, full:sameTZ?pst:`${pst} (local: ${local})`});
+  }
+  return {iso,weekend,dow,d,slots,
+    wk:fmt('UTC',{weekday:'short'}).format(new Date(Date.UTC(y,m-1,d))),
+    mon:fmt('UTC',{month:'short'}).format(new Date(Date.UTC(y,m-1,d)))};
+}).filter(x=>x.slots.length);
+let activeDay=0;
+function renderSlots(){
+  const sel=data.availability||[];
+  const count=day=>day.slots.filter(s=>sel.includes(s.full)).length;
+  $('#days').innerHTML=SLOT_DAYS.map((day,i)=>{const c=count(day);return `<button class="day${i===activeDay?' active':''}" data-i="${i}"><span class="mono">${day.wk}${day.weekend?' ✦':''}</span><b>${day.d}</b><span class="mono">${day.mon}</span>${c?`<span class="cnt">${c}</span>`:''}</button>`}).join('');
+  const day=SLOT_DAYS[activeDay];
+  $('#dayLabel').textContent=`${day.wk} ${day.mon} ${day.d} · ${day.weekend?'weekend, all day':'evening'} · PST${sameTZ?'':' → your time below'}`;
+  $('#picked').innerHTML=`<b>${sel.length}</b> slot${sel.length===1?'':'s'} picked`;
+  $('#slots').innerHTML=day.slots.map(s=>`<button class="slot${sel.includes(s.full)?' sel':''}" data-v="${esc(s.full)}"><b>${s.label} PST</b>${sameTZ?'':`<small>${esc(s.local)}</small>`}</button>`).join('');
+  $('#days').querySelectorAll('.day').forEach(b=>b.addEventListener('click',()=>{activeDay=+b.dataset.i;renderSlots()}));
+  $('#slots').querySelectorAll('.slot').forEach(b=>b.addEventListener('click',()=>{
+    const v=b.dataset.v; let arr=[...(data.availability||[])];
+    arr=arr.includes(v)?arr.filter(x=>x!==v):[...arr,v];
+    // keep chronological order
+    const order=SLOT_DAYS.flatMap(d=>d.slots.map(s=>s.full)); arr.sort((a,b)=>order.indexOf(a)-order.indexOf(b));
+    data.availability=arr; save(); $('#err').textContent=''; renderSlots();
+  }));
+  const ad=$('#days').querySelector('.day.active'); if(ad) ad.scrollIntoView({block:'nearest',inline:'nearest'});
+}
+function next(){ if(busy)return; if(!collect())return; if(Q[idx].last) return submit(); go(1); }
+function go(d){ const n=idx+d; if(n<0||n>=Q.length)return; dir=d; idx=n; render(); }
+function ui(){
+  $('#prog').style.width=(idx/Q.length*100)+'%';
+  $('#counter').textContent=idx<Q.length?`${idx+1} / ${Q.length}`:'Done';
+  $('#prev').disabled=idx===0||idx>=Q.length; $('#next').disabled=idx>=Q.length;
+}
+
+document.addEventListener('keydown',e=>{
+  if(!overlay.classList.contains('open'))return;
+  if(e.key==='Escape')return close();
+  const s=Q[idx]; if(!s)return;
+  const inField=['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
+  if(e.key==='Enter'){ if(s.type==='textarea'&&!(e.metaKey||e.ctrlKey))return; e.preventDefault(); next(); return; }
+  if(inField)return;
+  if(e.key==='ArrowUp'){e.preventDefault();go(-1);return}
+  if(e.key==='ArrowDown'){e.preventDefault();next();return}
+  const k=e.key.toUpperCase();
+  if(s.type==='scale'&&/^[1-5]$/.test(k)) return pick(qEl.querySelectorAll('.opt')[+k-1]);
+  const i=L.indexOf(k); const opts=qEl.querySelectorAll('.opt');
+  if(k.length===1&&i>=0&&opts[i]) pick(opts[i]);
+});
+
+/* ---------- archetype + submit ---------- */
+function archetype(d){
+  const c=+d.coding||1, l=d.learning;
+  if(c>=4&&l==='Builder') return ['The Shipper','You learn by building and already have the hands. We go straight to production-grade work.'];
+  if(c>=4) return ['The Architect','Strong technical base. We sharpen system design, client delivery and depth.'];
+  if(l==='Explorer') return ['The Explorer','Curiosity is your engine. We turn exploration into shipped, visible work.'];
+  if(l==='Builder') return ['The Tinkerer','You learn by doing. We give you a fast lane from small builds to real systems.'];
+  if(l==='Reader') return ['The Strategist','You understand before you build. We pair your depth with weekly shipping.'];
+  return ['The Climber','Structure + momentum. We make each week a clear, winnable step.'];
+}
+const hrsMid={'Under 5 hrs':4,'5–8 hrs':6,'8–12 hrs':10,'12–20 hrs':16,'20+ hrs':22};
+
+async function submit(){
+  busy=true; const okb=$('#ok'); if(okb){okb.innerHTML='Sending <span class="spinner"></span>';okb.disabled=true}
+  const [aName]=archetype(data);
+  const payload={...data, archetype:aName, timezone:Intl.DateTimeFormat().resolvedOptions().timeZone, submittedAt:new Date().toISOString(), website:($('#hp')||{}).value||''};
+  delete payload.contact;
+  try{
+    if(!CFG.SCRIPT_URL) throw new Error('not-configured');
+    await fetch(CFG.SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    try{localStorage.setItem('ds_intake_submitted',JSON.stringify(payload));localStorage.removeItem('ds_intake')}catch(e){}
+    idx=Q.length; render();
+  }catch(err){
+    busy=false;
+    $('#err').textContent = err.message==='not-configured'
+      ? 'The form isn’t connected to its sheet yet (SCRIPT_URL missing in config.js). Your answers are saved in this browser.'
+      : 'Couldn’t send. Check your connection and try again. Your answers are saved.';
+    if(okb){okb.innerHTML='Try again <span class="arrow">↗</span>';okb.disabled=false}
+  }
+}
+
+function renderDone(){
+  const [a,desc]=archetype(data); const hrs=hrsMid[data.hours]||8;
+  qEl.className='q q-anim';
+  qEl.innerHTML=`<div class="result"><div class="q-num">✓ RECEIVED</div><h3>Thanks, ${esc(first(data.name))}. <em class="serif">See you on the call.</em></h3>
+  <p class="hint">You picked ${(data.availability||[]).length} slots. I'll confirm one by email, then go through your answers before we speak so we can spend the call on your roadmap.</p>
+  <div class="profile"><div class="profile-head"><span class="mono">Your starting archetype</span><div class="serif">${a}</div><p>${desc}</p></div>
+  <div class="profile-grid"><div><span class="mono">Target</span><b>${esc(data.target||'')}</b></div><div><span class="mono">12-week budget</span><b>≈ ${hrs*12} focused hours</b></div><div><span class="mono">Unlock</span><b>${esc((data.stuck||[])[0]||'')}</b></div></div></div>
+  <div class="q-actions">${CFG.BOOKING_URL?`<a class="btn btn-primary" href="${esc(CFG.BOOKING_URL)}" target="_blank" rel="noopener">Book your discovery call <span class="arrow">→</span></a>`:''}<button class="btn btn-ghost" id="back">Back to site</button></div></div>`;
+  $('#back').addEventListener('click',close); busy=false; ui(); $('#prog').style.width='100%';
+}
+})();
+</script>
+</body>
+</html>
