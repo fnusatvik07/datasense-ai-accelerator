@@ -33,15 +33,25 @@ const COLUMNS = [
   ['availability', 'Call availability (PST)'],
   ['archetype', 'Archetype'],
   ['note', 'Notes for the call'],
+  // added in v2 (kept at the end so earlier rows stay aligned)
+  ['title', 'Current title / study'],
+  ['company', 'Company / college'],
+  ['domain', 'Industry'],
+  ['workfocus', 'Day-to-day work'],
+  ['projects', 'Built so far'],
+  ['enjoy', 'Enjoys'],
+  ['stuckhabit', 'When stuck, they…'],
 ];
 
 function getSheet_() {
   const ss = SPREADSHEET_ID ? SpreadsheetApp.openById(SPREADSHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) sheet = ss.insertSheet(SHEET_NAME);
-  if (sheet.getLastRow() === 0) {
-    sheet.appendRow(COLUMNS.map(c => c[1]));
-    sheet.getRange(1, 1, 1, COLUMNS.length).setFontWeight('bold').setBackground('#111111').setFontColor('#ffffff');
+  // keep header row in sync with COLUMNS (safe because new columns are only appended)
+  const header = sheet.getRange(1, 1, 1, COLUMNS.length);
+  const want = COLUMNS.map(c => c[1]);
+  if (header.getValues()[0].join('|') !== want.join('|')) {
+    header.setValues([want]).setFontWeight('bold').setBackground('#111111').setFontColor('#ffffff');
     sheet.setFrozenRows(1);
   }
   return sheet;
@@ -56,7 +66,10 @@ function doPost(e) {
     const row = COLUMNS.map(([key]) => {
       const v = data[key];
       if (Array.isArray(v)) return v.join(key === 'availability' ? '\n' : ', ');
-      return v == null ? '' : String(v).slice(0, 2000);
+      if (v == null || v === '') return '';
+      const str = String(v).slice(0, 2000);
+      // store phone numbers / anything starting with = + - @ as plain text (no formulas, no number mangling)
+      return /^[=+\-@]/.test(str) || key === 'whatsapp' ? "'" + str : str;
     });
     getSheet_().appendRow(row);
     return json_({ ok: true });

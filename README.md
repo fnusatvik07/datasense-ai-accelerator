@@ -4,15 +4,16 @@ Static landing page with a Typeform-style intake that people fill out before the
 It's hosted on **GitHub Pages**. Responses go to a **Google Sheet** (one row per person, downloadable as Excel).
 
 ```
-index.html            landing page + 18-step intake (mostly tap-to-select)
+index.html            landing page + 24-step intake in 5 sections (mostly tap-to-select)
 config.js             SCRIPT_URL (Google Apps Script endpoint) + optional BOOKING_URL
 apps-script/Code.gs   receiver that appends each submission to the Sheet
 ```
 
 ## What the intake collects
-Name · email · WhatsApp · LinkedIn · current stage · experience · target role · timeline ·
+Name · email · WhatsApp · LinkedIn · current stage · experience · title & company · industry ·
+day-to-day work · projects built · target role · timeline ·
 hours/week · focus time · coding comfort (1–5) · tools used · learning style · work style ·
-where they're stuck · strengths · biggest weakness · 3-month success · **discovery-call availability** ·
+what they enjoy · what they do when stuck · where they're stuck · strengths · biggest weakness · 3-month success · **discovery-call availability** ·
 free-text notes. It also auto-captures timezone, a fun "archetype", and the timestamp.
 
 **Availability:** 1-hour slots in PST. Weekdays (Nov 5, 6, 9–13) run 6 PM–12 AM. Weekends (Nov 7, 8, 15) run 8 AM–12 AM.

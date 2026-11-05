@@ -185,6 +185,41 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .counter{font-family:var(--mono);font-size:12px;color:var(--muted)}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 
+/* rail layout */
+.intake{flex-direction:row}
+.rail{width:330px;flex:none;border-right:1px solid var(--line);background:var(--bg-2);display:flex;flex-direction:column;gap:30px;padding:24px 22px;overflow-y:auto}
+.rail .brand small{display:inline}
+.rail-h{display:block;font-size:10.5px;color:var(--dim);margin-bottom:10px}
+.secs{list-style:none;display:flex;flex-direction:column;gap:2px}
+.sec{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;color:var(--dim);font-size:15px;transition:background .25s,color .25s}
+.sec .dot{width:24px;height:24px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--mono);font-size:10px;flex:none;transition:.25s}
+.sec .n{margin-left:auto;font-family:var(--mono);font-size:11px}
+.sec.cur{background:var(--card);color:var(--ink);box-shadow:inset 2px 0 0 var(--accent)}
+.sec.cur .dot{border-color:var(--accent);color:var(--accent)}
+.sec.cur .n{color:var(--accent)}
+.sec.done{color:var(--muted)}
+.sec.done .dot{background:var(--ok);border-color:var(--ok);color:var(--bg);font-size:12px}
+.snap{border:1px solid var(--line);border-radius:14px;padding:16px 16px 6px;background:var(--bg)}
+.snap-row{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:9px 0;border-top:1px dashed var(--line);font-size:14px}
+.snap-row:first-child{border-top:0}
+.snap-row span{color:var(--dim);font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;flex:none}
+.snap-row b{font-weight:500;text-align:right;line-height:1.3}
+.snap-row b.empty{color:var(--line-2);font-weight:400}
+.snap-row b.hl{color:var(--accent);font-family:var(--serif);font-size:19px;font-weight:400}
+.snap-row.pop b{animation:pop .5s}
+@keyframes pop{0%{color:var(--accent)}100%{}}
+.rail-foot{margin-top:auto;font-size:13px;color:var(--dim);line-height:1.5}
+.in-main{flex:1;display:flex;flex-direction:column;min-width:0}
+.in-top{padding:18px 7vw 0}
+.in-body{justify-content:flex-start;align-items:flex-start;padding:7vh 7vw 48px}
+.q{margin:0;max-width:780px}
+.in-foot{padding:14px 7vw}
+@media (max-width:980px){
+  .rail{display:none}
+  .in-top{padding:18px 24px 0}.in-body{padding:4vh 24px 40px}.in-foot{padding:14px 24px}
+}
+@media (max-width:600px){.in-top{padding:16px 16px 0}.in-body{padding:3vh 16px 32px}.in-foot{padding:12px 16px}}
+
 /* result card */
 .result{text-align:left}
 .profile{margin-top:30px;border:1px solid var(--line-2);border-radius:20px;overflow:hidden;background:var(--card)}
@@ -260,7 +295,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div class="cta-row">
         <button class="btn btn-primary" data-open>Begin your intake <span class="arrow">→</span></button>
         <a class="btn btn-ghost" href="#roadmap">See the 12 weeks</a>
-        <span class="cta-note">~4 min · mostly tap, little typing</span>
+        <span class="cta-note">~5 min · mostly tap, little typing</span>
       </div>
     </div>
 
@@ -295,7 +330,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <p>Everything starts with a short intake, so our first call is about you and not small talk.</p>
     </div>
     <div class="steps">
-      <div class="step you"><span class="tag">YOU ARE HERE</span><h4>Intake form</h4><p>Four minutes: where you are, where you want to go, and how you learn.</p></div>
+      <div class="step you"><span class="tag">YOU ARE HERE</span><h4>Intake form</h4><p>Five minutes: where you are, where you want to go, and how you learn.</p></div>
       <div class="step"><h4>Discovery call</h4><p>We go through your answers, find the real gaps, and agree on one clear target.</p></div>
       <div class="step"><h4>Your 12-week roadmap</h4><p>A personalised plan built around your hours, your style and your target role.</p></div>
       <div class="step"><h4>Weekly tasks + review</h4><p>Ship something every week, get feedback, adjust, and keep moving.</p></div>
@@ -327,14 +362,28 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ INTAKE ============ -->
 <div class="intake" id="intake" role="dialog" aria-modal="true" aria-label="Accelerator intake form">
   <div class="in-progress"><i id="prog"></i></div>
-  <div class="in-top">
-    <span class="brand"><span class="brand-mark"><span></span></span>Intake</span>
-    <button class="in-close" id="close" aria-label="Close">✕</button>
-  </div>
-  <div class="in-body"><div class="q" id="q"></div></div>
-  <div class="in-foot">
-    <span class="counter" id="counter"></span>
-    <div class="nav-btns"><button id="prev" aria-label="Previous">↑</button><button id="next" aria-label="Next">↓</button></div>
+  <aside class="rail">
+    <span class="brand"><span class="brand-mark"><span></span></span>DataSense <small>INTAKE</small></span>
+    <div>
+      <span class="mono rail-h">Sections</span>
+      <ol class="secs" id="secs"></ol>
+    </div>
+    <div class="snap">
+      <span class="mono rail-h">Your profile, so far</span>
+      <div id="snap"></div>
+    </div>
+    <p class="rail-foot">Answers save as you go. Close anytime and pick up where you left off.</p>
+  </aside>
+  <div class="in-main">
+    <div class="in-top">
+      <span class="mono" id="secLabel"></span>
+      <button class="in-close" id="close" aria-label="Close">✕</button>
+    </div>
+    <div class="in-body"><div class="q" id="q"></div></div>
+    <div class="in-foot">
+      <span class="counter" id="counter"></span>
+      <div class="nav-btns"><button id="prev" aria-label="Previous">↑</button><button id="next" aria-label="Next">↓</button></div>
+    </div>
   </div>
 </div>
 
@@ -386,30 +435,42 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 /* ---------- intake definition ---------- */
+const SECTIONS=[['you','About you'],['work','Your work'],['goals','Your goals'],['style','How you work'],['call','The call']];
 const Q = [
-  {id:'name', type:'text', q:"First things first: what should I call you?", ph:'Your full name', req:true},
-  {id:'contact', type:'fields', q:d=>`Nice to meet you, ${first(d.name)}. Where can I reach you?`, hint:'Only used to schedule your discovery call.',
+  {sec:'you', id:'name', type:'text', q:"First things first: what should I call you?", ph:'Your full name', req:true},
+  {sec:'you', id:'contact', type:'fields', q:d=>`Nice to meet you, ${first(d.name)}. Where can I reach you?`, hint:'Only used to schedule your discovery call.',
     fields:[{id:'email',label:'Email',type:'email',ph:'you@email.com',req:true},{id:'whatsapp',label:'WhatsApp / phone',type:'tel',ph:'+91 98xxx xxxxx',opt:true},{id:'linkedin',label:'LinkedIn URL',type:'url',ph:'linkedin.com/in/…',opt:true}]},
-  {id:'stage', type:'single', q:'Where are you in your career right now?', opts:['Student','Fresher (0–1 yr)','Software / IT engineer','Data / ML professional','Non-tech professional','Manager / Tech lead','Founder / Freelancer','On a career break']},
-  {id:'experience', type:'single', q:'Total years of work experience?', opts:['0–1 years','1–3 years','3–6 years','6–10 years','10+ years']},
-  {id:'target', type:'single', q:'Which role are you going after?', opts:['Forward Deployed Engineer','AI Solutions Architect','AI / Agent Engineer','Applied AI / ML Engineer','AI Product Manager','Building my own AI product','Still figuring it out']},
-  {id:'timeline', type:'single', q:'How soon do you want to be in that role?', opts:['ASAP, within 3 months','3–6 months','6–12 months','No rush, skills first']},
-  {id:'hours', type:'single', q:'Honestly, how many hours a week can you give this?', hint:'Be realistic. Your roadmap is built around this number.', opts:['Under 5 hrs','5–8 hrs','8–12 hrs','12–20 hrs','20+ hrs']},
-  {id:'slot', type:'multi', q:'When do you usually get your focused time?', hint:'Pick all that apply.', opts:['Early mornings','Weekday daytime','Weekday evenings','Late nights','Weekends','It varies']},
-  {id:'coding', type:'scale', q:'How comfortable are you with code?', labels:['Never written code','Can write small scripts','Ship production code']},
-  {id:'tools', type:'multi', q:'What have you already used hands-on?', hint:'Pick all that apply. "None yet" is a perfectly good answer.', opts:['Python','Claude Code','Cursor / Copilot','ChatGPT / Claude (chat)','LLM APIs (OpenAI / Anthropic)','LangChain / LangGraph','RAG & vector DBs','MCP servers','n8n / Zapier / no-code','Cloud (AWS / GCP / Azure)','Docker & deployment','None yet, fresh start'], exclusive:'None yet, fresh start'},
-  {id:'learning', type:'single', one:true, q:'How do you learn best?', opts:[
+
+  {sec:'work', id:'stage', type:'single', q:'Where are you in your career right now?', opts:['Student','Fresher (0–1 yr)','Software / IT engineer','Data / ML professional','Non-tech professional','Manager / Tech lead','Founder / Freelancer','On a career break']},
+  {sec:'work', id:'experience', type:'single', q:'Total years of work experience?', opts:['0–1 years','1–3 years','3–6 years','6–10 years','10+ years']},
+  {sec:'work', id:'role', type:'fields', q:'What do you do right now, and where?', hint:'Both optional, but they help me tailor projects to your world.',
+    fields:[{id:'title',label:'Current title / what you study',type:'text',ph:'e.g. Senior Backend Engineer · B.Tech CSE',opt:true},{id:'company',label:'Company / college',type:'text',ph:'e.g. Infosys · IIT Delhi',opt:true}]},
+  {sec:'work', id:'domain', type:'single', q:'Which industry are you closest to?', hint:'Domain knowledge is an unfair advantage for FDEs. We’ll use yours.', opts:['IT services / consulting','SaaS / product company','Banking / fintech','Healthcare / pharma','E-commerce / retail','EdTech / education','Manufacturing / logistics','Other / not working yet']},
+  {sec:'work', id:'workfocus', type:'multi', max:3, q:'Day to day, what does your work actually involve?', hint:'Pick up to 3: your job, internship or coursework.', opts:['Backend / APIs','Frontend / full-stack','Data pipelines / analytics','ML / data science','DevOps / cloud / infra','QA / testing / support','Product / project management','Client-facing / consulting','Sales / business / ops','Mostly studying']},
+  {sec:'work', id:'projects', type:'multi', q:'What have you actually built so far?', hint:'Anything counts: work, side projects, coursework. Pick all that apply.', opts:['A chatbot / LLM app','RAG over documents','An agent that uses tools','Automation workflows (n8n, Zapier…)','A full-stack web app','An ML model / pipeline','Dashboards / analytics','Nothing shipped yet'], exclusive:'Nothing shipped yet'},
+
+  {sec:'goals', id:'target', type:'single', q:'Which role are you going after?', opts:['Forward Deployed Engineer','AI Solutions Architect','AI / Agent Engineer','Applied AI / ML Engineer','AI Product Manager','Building my own AI product','Still figuring it out']},
+  {sec:'goals', id:'timeline', type:'single', q:'How soon do you want to be in that role?', opts:['ASAP, within 3 months','3–6 months','6–12 months','No rush, skills first']},
+  {sec:'goals', id:'success', type:'multi', max:2, q:'Three months from now, what makes this a win?', hint:'Pick up to 2.', opts:['An offer in my target role','Internal switch / promotion','3+ deployed agent projects','Being genuinely interview-ready','First consulting / freelance clients','Launching my own AI product','Clarity & confidence on my path']},
+
+  {sec:'style', id:'hours', type:'single', q:'Honestly, how many hours a week can you give this?', hint:'Be realistic. Your roadmap is built around this number.', opts:['Under 5 hrs','5–8 hrs','8–12 hrs','12–20 hrs','20+ hrs']},
+  {sec:'style', id:'slot', type:'multi', q:'When do you usually get your focused time?', hint:'Pick all that apply.', opts:['Early mornings','Weekday daytime','Weekday evenings','Late nights','Weekends','It varies']},
+  {sec:'style', id:'coding', type:'scale', q:'How comfortable are you with code?', labels:['Never written code','Can write small scripts','Ship production code']},
+  {sec:'style', id:'tools', type:'multi', q:'What have you already used hands-on?', hint:'Pick all that apply. "None yet" is a perfectly good answer.', opts:['Python','Claude Code','Cursor / Copilot','ChatGPT / Claude (chat)','LLM APIs (OpenAI / Anthropic)','LangChain / LangGraph','RAG & vector DBs','MCP servers','n8n / Zapier / no-code','Cloud (AWS / GCP / Azure)','Docker & deployment','None yet, fresh start'], exclusive:'None yet, fresh start'},
+  {sec:'style', id:'learning', type:'single', one:true, q:'How do you learn best?', opts:[
     {v:'Builder',d:'Give me a task. I learn by coding and breaking things.'},
     {v:'Explorer',d:'I watch, explore and tinker until it clicks.'},
     {v:'Reader',d:'Docs, blogs and papers first, then I build.'},
     {v:'Guided',d:'Walk me through it step by step, then let me repeat it.'}]},
-  {id:'workstyle', type:'single', q:'And how do you work best?', opts:['Solo & self-driven','Solo, with regular check-ins','With a peer or small group','I need someone pushing me']},
-  {id:'stuck', type:'multi', max:3, q:'Where are you stuck right now?', hint:'Pick up to 3.', opts:["Don't know where to start",'Too much info, overwhelmed','Can’t build end-to-end projects','No strong portfolio','Not getting interview calls','Clearing interviews / system design','Staying consistent','Understanding agents deeply','Client-facing communication']},
-  {id:'strengths', type:'multi', max:3, q:'What are your strengths?', hint:'Pick up to 3. No modesty here.', opts:['Coding & building','Problem solving','Communication','Business / domain knowledge','Fast learner','Discipline & consistency','Product / design sense','Leadership']},
-  {id:'weakness', type:'single', q:'Be honest. What’s your biggest weakness?', hint:'This stays between us. It helps me build in the right guardrails.', opts:['Procrastination','Overthinking / perfectionism','Weak fundamentals','Shiny-object syndrome','Low confidence','Communication','Time management','Giving up when stuck']},
-  {id:'success', type:'multi', max:2, q:'Three months from now, what makes this a win?', hint:'Pick up to 2.', opts:['An offer in my target role','Internal switch / promotion','3+ deployed agent projects','Being genuinely interview-ready','First consulting / freelance clients','Launching my own AI product','Clarity & confidence on my path']},
-  {id:'availability', type:'slots', min:2, q:d=>`Last bit, ${first(d.name)}: when are you free for a 1-hour discovery call?`, hint:'Pick every slot that works (at least 2). I’ll confirm one by email. Times are PST, with your local time underneath.'},
-  {id:'note', type:'textarea', q:'Anything else I should know before our call?', hint:'Optional: context, constraints, a dream company, anything.', ph:'Type here, or just hit Submit…', opt:true, last:true},
+  {sec:'style', id:'enjoy', type:'multi', max:2, q:'What part of the work do you genuinely enjoy?', hint:'Pick up to 2. This shapes which projects you get.', opts:['Building things from scratch','Designing how systems fit together','Debugging hard problems','Talking to clients & users','Explaining / teaching others','Reading research, trying new models','Turning ideas into business']},
+  {sec:'style', id:'workstyle', type:'single', q:'And how do you work best?', opts:['Solo & self-driven','Solo, with regular check-ins','With a peer or small group','I need someone pushing me']},
+  {sec:'style', id:'stuckhabit', type:'single', q:'You’ve been stuck on a bug for an hour. What do you actually do?', hint:'No right answer. Just be honest.', opts:['Keep pushing alone until it works','Ask an AI (Claude / ChatGPT)','Dig into docs, GitHub issues, forums','Ask a friend or colleague','Switch to something else, come back later','Honestly, I often give up']},
+  {sec:'style', id:'stuck', type:'multi', max:3, q:'Where are you stuck in your career right now?', hint:'Pick up to 3.', opts:["Don't know where to start",'Too much info, overwhelmed','Can’t build end-to-end projects','No strong portfolio','Not getting interview calls','Clearing interviews / system design','Staying consistent','Understanding agents deeply','Client-facing communication']},
+  {sec:'style', id:'strengths', type:'multi', max:3, q:'What are your strengths?', hint:'Pick up to 3. No modesty here.', opts:['Coding & building','Problem solving','Communication','Business / domain knowledge','Fast learner','Discipline & consistency','Product / design sense','Leadership']},
+  {sec:'style', id:'weakness', type:'single', q:'Be honest. What’s your biggest weakness?', hint:'This stays between us. It helps me build in the right guardrails.', opts:['Procrastination','Overthinking / perfectionism','Weak fundamentals','Shiny-object syndrome','Low confidence','Communication','Time management','Giving up when stuck']},
+
+  {sec:'call', id:'availability', type:'slots', min:2, q:d=>`Last bit, ${first(d.name)}: when are you free for a 1-hour discovery call?`, hint:'Pick every slot that works (at least 2). I’ll confirm one by email. Times are PST, with your local time underneath.'},
+  {sec:'call', id:'note', type:'textarea', q:'Anything else I should know before our call?', hint:'Optional: context, constraints, a dream company, anything.', ph:'Type here, or just hit Submit…', opt:true, last:true},
 ];
 
 const data = load() || {};
@@ -533,7 +594,24 @@ function renderSlots(){
 }
 function next(){ if(busy)return; if(!collect())return; if(Q[idx].last) return submit(); go(1); }
 function go(d){ const n=idx+d; if(n<0||n>=Q.length)return; dir=d; idx=n; render(); }
+const secName=id=>(SECTIONS.find(x=>x[0]===id)||[])[1]||'';
+let lastSnap={};
+function renderRail(){
+  const cur=Q[idx]?Q[idx].sec:null;
+  $('#secs').innerHTML=SECTIONS.map(([id,label],i)=>{
+    const ids=Q.map((q,j)=>q.sec===id?j:-1).filter(j=>j>=0);
+    const done=idx>Math.max(...ids); const isCur=cur===id;
+    const pos=isCur?ids.indexOf(idx)+1:0;
+    return `<li class="sec${done?' done':''}${isCur?' cur':''}"><span class="dot">${done?'✓':i+1}</span>${label}<span class="n">${isCur?pos+'/'+ids.length:done?'':ids.length}</span></li>`;
+  }).join('');
+  const arch=(data.coding&&data.learning)?archetype(data)[0]:'';
+  const rows=[['Name',data.name],['Now',data.title||data.stage],['Aiming for',data.target],['Timeline',data.timeline],['Hours / wk',data.hours],['Learns by',data.learning],['Archetype',arch,true]];
+  $('#snap').innerHTML=rows.map(([k,v,hl])=>`<div class="snap-row${v&&lastSnap[k]!==v?' pop':''}"><span>${k}</span><b class="${v?(hl?'hl':''):'empty'}">${v?esc(v):'—'}</b></div>`).join('');
+  lastSnap=Object.fromEntries(rows.map(r=>[r[0],r[1]]));
+  $('#secLabel').textContent=cur?`${String(SECTIONS.findIndex(x=>x[0]===cur)+1).padStart(2,'0')} · ${secName(cur)}`:'✓ Complete';
+}
 function ui(){
+  renderRail();
   $('#prog').style.width=(idx/Q.length*100)+'%';
   $('#counter').textContent=idx<Q.length?`${idx+1} / ${Q.length}`:'Done';
   $('#prev').disabled=idx===0||idx>=Q.length; $('#next').disabled=idx>=Q.length;
